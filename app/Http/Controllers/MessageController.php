@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\MessagesModel;
 use App\Models\ReactionToMessagesModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\ReactedToYourMessageNotification;
 
 class MessageController extends Controller
 {
@@ -59,7 +61,10 @@ class MessageController extends Controller
         $reaction->reacted_by=Auth::id();
         $reaction->message_id=$request->message_id;
         $reaction->save();
+        $message=MessagesModel::findOrFail($request->message_id);
+        $user=User::findOrFail($message->sender_id);
 
+        $user->notify(new ReactedToYourMessageNotification(Auth::user(),$message->content));
         return response()->json($reaction, 200);
     }
 

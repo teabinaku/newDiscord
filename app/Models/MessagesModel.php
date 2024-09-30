@@ -26,6 +26,11 @@ class MessagesModel extends Model
         return $this->belongsTo(GroupChatsModel::class,'group_chat_id');
 
     }
+    public function reactions()
+    {
+        return $this->hasMany(ReactionToMessagesModel::class);
+
+    }
 
 }
 

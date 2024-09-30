@@ -18,7 +18,7 @@ class NowFollowingNotification extends Notification
      */
     public function __construct($otherUser)
     {
-        dump($otherUser);
+
         $this->otherUser = $otherUser;
     }
 

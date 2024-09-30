@@ -35,11 +35,21 @@ class ProfileController extends Controller
         return response()->json(['message' => 'No file uploaded'], 400);
     }
 
-    public function getUserProfile() {
+    public function editProfileData(Request $request)
+    {
+
+        // Get the authenticated user
         $user = Auth::user();
-        // Generate the full URL for the avatar if it exists
-        $user->avatar = $user->avatar ? asset('storage/' . $user->avatar) : null;
-        return response()->json($user);
+
+        // Update the user's profile data
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($user->save()) {
+            return response()->json(['message' => 'Profile updated successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Profile update failed'], 500);
+        }
     }
 
 }
