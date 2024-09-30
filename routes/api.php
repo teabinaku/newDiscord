@@ -3,34 +3,46 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
     use Illuminate\Support\Facades\Auth;
+
+    use Illuminate\Support\Facades\Log;
+
     Route::post('/add/user', [\App\Http\Controllers\SignUpController::class, 'index']);
 
     Route::post('/login', function (Request $request) {
-//        $request->validate([
-//            'login' => 'required',
-//            'password' => 'required',
-//        ]);
-        dump("erdh deri tek");
+        try {
+            Log::info('Login attempt received'); // Log the request for debugging
 
-        $credentials = [
-            filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'name' => $request->login,
-            'password' => $request->password,
-        ];
+            $credentials = [
+                filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'name' => $request->login,
+                'password' => $request->password,
+            ];
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
+            // Attempt to authenticate using the credentials
+            if (Auth::attempt($credentials)) {
+                $user = Auth::user();
 
-            // Use createToken method after Sanctum is set up
-            $token = $user->createToken('authToken')->plainTextToken;
+                // Create a token if the authentication is successful
+                $token = $user->createToken('authToken')->plainTextToken;
+
+                // Return success response
+                return response()->json([
+                    'message' => 'Login successful',
+                    'user' => $user,
+                    'token' => $token
+                ], 200);
+            }
+
+            // Return failure response if credentials are incorrect
+            return response()->json(['message' => 'Invalid credentials'], 401);
+
+        } catch (\Exception $e) {
+            Log::error('Login error: ' . $e->getMessage()); // Log the error in the Laravel logs
 
             return response()->json([
-                'message' => 'Login successful',
-                'user' => $user,
-                'token' => $token
-            ], 200);
+                'message' => 'An error occurred during login.',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        return response()->json(['message' => 'Invalid credentials'], 401);
     });
 
     // Protected route
@@ -88,3 +100,4 @@ Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
 
     Route::middleware('auth:sanctum')->post('/remove/friend', [\App\Http\Controllers\FriendController::class, 'removeFriend']);
 
+Route::middleware('auth:sanctum')->post('/edit/profile', [\App\Http\Controllers\ProfileController::class, 'editProfileData']);
