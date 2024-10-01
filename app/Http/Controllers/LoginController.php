@@ -26,17 +26,28 @@ class LoginController extends Controller
             // Authentication passed
             $user = Auth::user(); // Get authenticated user
 
-            // Return success and user data, including token if needed
+            // Generate tokens
+            $token = $user->createToken('authToken')->plainTextToken;
+            $refreshToken = Str::random(64); // Generate refresh token
+
+            // Save refresh token in the database
+            $user->tokens()->update([
+                'refresh_token' => $refreshToken
+            ]);
+
+            // Return success and user data, including access and refresh tokens
             return response()->json([
                 'message' => 'Login successful',
                 'user' => $user,
-                'token' => $user->createToken('authToken')->plainTextToken // Using Sanctum for API tokens
+                'token' => $token,
+                'refresh_token' => $refreshToken
             ], 200);
         }
 
         // Authentication failed
         return response()->json(['message' => 'Invalid credentials'], 401);
     }
+
 
 
 

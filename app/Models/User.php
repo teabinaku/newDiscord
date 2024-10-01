@@ -67,7 +67,7 @@ class User extends Authenticatable
         }
 
         // Return a default avatar if the user does not have an avatar
-        return asset('storage/icon2.png'); // Ensure you have a default avatar in storage
+        return asset('pic.jpg'); // Ensure you have a default avatar in storage
     }
 
     public function groupChatMemberships()

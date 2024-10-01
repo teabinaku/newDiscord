@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
     use Illuminate\Support\Facades\Log;
 
-    Route::post('/add/user', [\App\Http\Controllers\SignUpController::class, 'index']);
+    Route::post('/add/user', [\App\Http\Controllers\AuthController::class, 'index']);
 
     Route::post('/login', function (Request $request) {
         try {

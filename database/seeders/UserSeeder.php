@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             User::create([
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
-                'avatar' => 'avatars/' . $faker->word . '.png',  // Fake avatar path
+                'avatar' => 'avatars/IU5GeWj77p4M9ZxK8GPs1f6emOHi9KPqE9YXRR98.png',  // Fake avatar path
                 'email_verified_at' => now(),
                 'password' => Hash::make('password'),  // Default password for all
                 'user_type_id' => 1,  // Random user type
