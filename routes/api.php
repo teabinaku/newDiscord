@@ -105,3 +105,8 @@ Route::middleware('auth:sanctum')->post('/edit/profile', [\App\Http\Controllers\
 
 
     Route::middleware('auth:sanctum')->post('/create/group-chat', [\App\Http\Controllers\GroupChatController::class, 'addGroupChat']);
+
+    Route::middleware('auth:sanctum')->get('/user/group-chats', [\App\Http\Controllers\GroupChatController::class, 'getUserGroupChats']);
+    Route::middleware('auth:sanctum')->post('/send/group-chat-message', [\App\Http\Controllers\GroupChatController::class, 'sendGroupChatMessage']);
+    Route::middleware('auth:sanctum')->get('/get/group-chat-messages/{group_chat_id}', [\App\Http\Controllers\GroupChatController::class, 'getGroupChatMessages']);
+

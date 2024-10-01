@@ -69,4 +69,14 @@ class User extends Authenticatable
         // Return a default avatar if the user does not have an avatar
         return asset('storage/icon2.png'); // Ensure you have a default avatar in storage
     }
+
+    public function groupChatMemberships()
+    {
+        return $this->hasMany(GroupChatMembers::class, 'user_id');
+    }
+
+    public function groupChats()
+    {
+        return $this->belongsToMany(GroupChatsModel::class, 'group_chat_members', 'user_id', 'group_chat_id');
+    }
 }
