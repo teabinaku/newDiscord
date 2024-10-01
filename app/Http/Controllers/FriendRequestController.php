@@ -14,7 +14,7 @@ class FriendRequestController extends Controller
 {
     public function addFriendRequest(Request $request)
 {
-    dump($request->all());
+//    dump($request->all());
 
     // Find the user by name or email
     $user = User::where('name', $request->username)
@@ -49,6 +49,8 @@ class FriendRequestController extends Controller
         return response()->json('User not found', 404);
     }
 }
+
+
 
 
     public function sendFriendRequests(){

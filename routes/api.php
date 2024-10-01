@@ -51,6 +51,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     });
 
 Route::middleware('auth:sanctum')->post('/add/friend/request', [\App\Http\Controllers\FriendRequestController::class,'addFriendRequest']);
+    Route::get('/search/users', [\App\Http\Controllers\FriendController::class, 'searchUsers'])->middleware('auth:sanctum');
 
 
 Route::middleware('auth:sanctum')->post('/get/send/friend/requests', [\App\Http\Controllers\FriendRequestController::class,'sendFriendRequests']);
