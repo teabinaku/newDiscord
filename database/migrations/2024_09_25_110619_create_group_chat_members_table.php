@@ -16,9 +16,11 @@ class CreateGroupChatMembersTable extends Migration
         Schema::create('group_chat_members', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('group_chat_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('group_chat_id')->references('id')->on('group_chats');
 
         });
     }

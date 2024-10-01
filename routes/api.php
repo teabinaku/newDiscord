@@ -102,3 +102,6 @@ Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
     Route::middleware('auth:sanctum')->post('/remove/friend', [\App\Http\Controllers\FriendController::class, 'removeFriend']);
 
 Route::middleware('auth:sanctum')->post('/edit/profile', [\App\Http\Controllers\ProfileController::class, 'editProfileData']);
+
+
+    Route::middleware('auth:sanctum')->post('/create/group-chat', [\App\Http\Controllers\GroupChatController::class, 'addGroupChat']);
